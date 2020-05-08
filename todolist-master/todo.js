@@ -1,16 +1,12 @@
-
-
-//ADD new To do
-const search = document.querySelector('.search input');
-
-const list = document.querySelector('.todos');  
-
-const addForm = document.querySelector('.add'); 
-const btn = document.querySelector('.btn');    
-
+//ADD new To do 
+const addForm = document.querySelector('.add');
+const list = document.querySelector('.todos');
+const popup = document.querySelector('.popup');
 const gPop = document.querySelector('.popup-wrapper');
-const popup = document.querySelector('.popup'); 
-
+const btn = document.querySelector('.btn');
+const search = document.querySelector('.search input');
+const i=document.querySelector("i");
+const li=document.querySelector("li");
 gPop.style.display = "none";
 
 
@@ -19,8 +15,10 @@ gPop.style.display = "none";
 /* Function pour l'alert et le popup qui va etre afficher (time control)*/
 function start(duree)
 {
-var o=document.getElementById("sp");
+var o = document.getElementById("sp");
+
 if(duree > 0)
+
 {
 o.innerHTML = duree;
 gPop.style.display = "block";
@@ -28,12 +26,14 @@ setTimeout("start("+duree+" -1)", 1000);
 }
 else
 {
-   alert("enter a valid to do");
-o.innerHTML ="Au revoir";
+o.innerHTML = "Au revoir";
 gPop.style.display="none";
 popup.style.visibility ="hidden";
 
 }};
+
+
+
 
 
 /* Function Creation dynamique du POPUP */
@@ -55,7 +55,9 @@ function create(){
    div2.innerHTML=html;
    popup.append(div2); 
    
-}
+   
+} 
+
 
 /* Function generation dynamique des TODOS */
 
@@ -67,12 +69,7 @@ const generateTemp = todo =>{
             </li>
    `;  
    list.innerHTML += html;
-   localStorage[''] = list.innerHTML
 };
-
-if(localStorage['']){
-   list.innerHTML = localStorage[''];
-}
 
 
 /* function pour controller l'evenement et pour ne pas etre repeté à chaque clique */
@@ -104,23 +101,21 @@ onetime(gPop,'click',handler);
 /************* Adding TO DO**************/
 
 //Eventlistner Add TODOS
+
 btn.addEventListener('click',e =>{
    e.preventDefault();
-   const add = addForm.add.value;
-   const number = 3;
-   if(document.querySelector('.popup-content') == null){
+   let numb=3;
+   if (document.querySelector('.popup-content') == null) {
       create();
    }
-   if (add == ''){
-      start(number);
-      popup.style.visibility = 'visible'
-      
-   }
-   else{
-   generateTemp(add);
-   }
-
-   
+   if (addForm.add.value == "") {
+      start(numb);
+      popup.style.visibility = "visible";
+   } 
+   else {
+      addf = generateTemp(addForm.add.value);
+     localStorage.getItem(addForm.add.value);
+  }
 });
 
 /************* Fin Adding TO DO**************/
@@ -128,14 +123,13 @@ btn.addEventListener('click',e =>{
 
 
 /*************Deleting  TO DO**************/
+
 list.addEventListener('click',e =>{
 
-   if(e.target.tagName === 'I'){
       e.target.parentElement.remove();
-      localStorage[''] = list.innerHTML
-   }
-
+  
 });
+
 
 /************* Fin Deleting  TO DO**************/
 
@@ -154,32 +148,29 @@ list.addEventListener('click',e =>{
 const retrieve = (term) =>{
 
    //function pour faire un filtre i
+};  
+
+
+//evenement de recherche des mots clés 
+search.addEventListener('keyup', () => {
+
    var filter, li, a, i, txtValue;
    filter = search.value.toUpperCase();
    li = list.getElementsByTagName("li");
-   
    for (i = 0; i < li.length; i++) {
       a = li[i].getElementsByTagName("span")[0];
-      console.log(a);
       txtValue = a.textContent || a.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1) {
          li[i].style.display = "";
       } else {
          li[i].style.setProperty('display', 'none', 'important');
-         
+
       }
    }
 
-};  
-
-
-//evenement de recherche des mots clés 
-search.addEventListener('keyup', () =>{
-
- retrieve();
-  
 
 })
 
 /*************************************Fin SEARCH ITEM********************************************/
+
 
